@@ -6,8 +6,8 @@ const Stripe = require('stripe')
 
 // --- CONFIG ---
 const STRIPE_SECRET = process.env.STRIPE_SECRET
-const OUT_DIR_INVOICES = './stripe_invoices'
-const OUT_DIR_RECEIPTS = './stripe_receipts'
+const OUT_DIR_INVOICES = './out/invoices'
+const OUT_DIR_RECEIPTS = './out/receipts'
 
 // Change these to the month/time-range you want:
 const FROM = Math.floor(new Date('2025-11-01').getTime() / 1000)
@@ -95,9 +95,9 @@ async function downloadReceipts() {
 
     await downloadFile(pdfUrl, filepath)
     console.log(`🧾 Receipt saved: ${filename}`)
-
     count++
-    await delay(200)
+
+    await delay(200) // prevent hitting Stripe rate limits
   }
 
   console.log(`✅ Finished downloading ${count} receipts.`)
